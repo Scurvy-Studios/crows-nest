@@ -1,5 +1,5 @@
 <template>
-    <v-container fluid>
+    <v-container>
         <v-row>
             <v-col cols="auto" class="text-h4">
                 Appointments</v-col>
