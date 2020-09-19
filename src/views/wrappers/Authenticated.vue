@@ -37,7 +37,7 @@
       color="indigo"
       dark
     >
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-toolbar-title>The Crow's Nest</v-toolbar-title>
     </v-app-bar>
 
@@ -51,7 +51,7 @@
           align="stretch"
         >
           <v-col class="text-center">
-            <router-view></router-view>
+            <router-view />
           </v-col>
         </v-row>
       </v-container>
@@ -60,20 +60,16 @@
       color="indigo"
       app
     >
-      <v-spacer></v-spacer>
+      <v-spacer />
       <span class="white--text">Scurvy Studios &copy; {{ new Date().getFullYear() }}</span>
     </v-footer>
   </v-app>
 </template>
 
 <script>
-  export default {
-    props: {
-      source: String,
-    },
-
-    data: () => ({
-      drawer: null,
-    }),
-  }
+export default {
+  data: () => ({
+    drawer: null,
+  }),
+};
 </script>

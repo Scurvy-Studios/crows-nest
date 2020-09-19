@@ -6,6 +6,9 @@
       dark
     >
       <v-toolbar-title>The Crow's Nest</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-btn color="secondary" class="mr-4" to="/signup">Sign Up</v-btn>
+      <v-btn color="accent" @click="signin">Sign In</v-btn>
     </v-app-bar>
 
     <v-main>
@@ -18,7 +21,7 @@
           align="stretch"
         >
           <v-col class="text-center">
-            <router-view></router-view>
+            <router-view />
           </v-col>
         </v-row>
       </v-container>
@@ -27,13 +30,18 @@
       color="indigo"
       app
     >
-      <v-spacer></v-spacer>
+      <v-spacer />
       <span class="white--text">Scurvy Studios &copy; {{ new Date().getFullYear() }}</span>
     </v-footer>
   </v-app>
 </template>
 
 <script>
-  export default {
-  }
+export default {
+  methods: {
+    signin() {
+      return this.$auth.loginWithRedirect();
+    },
+  },
+};
 </script>

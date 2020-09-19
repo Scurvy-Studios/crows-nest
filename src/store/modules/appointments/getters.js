@@ -1,5 +1,5 @@
 export default {
-    getUpcomingSessions(state) {
-        return state.upcomingSessions;
-    },
+  getUpcomingSessions(state) {
+    return state.upcomingSessions;
+  },
 };

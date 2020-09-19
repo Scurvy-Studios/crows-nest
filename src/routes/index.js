@@ -1,28 +1,27 @@
-import Appointments from '@/views/Appointments.vue';
-import Authenticated from '@/views/wrappers/Authenticated.vue';
-import Unauthenticated from '@/views/wrappers/Unauthenticated.vue';
-import SignUp from '@/views/SignUp.vue';
+import { authGuard } from '../auth';
 
 const routes = [
   {
     path: '/',
-    component: Unauthenticated,
+    component: () => import('./../views/wrappers/Unauthenticated.vue'),
     children: [
       {
         path: 'signup',
-        component: SignUp,
+        component: () => import('./../views/SignUp.vue'),
       },
     ],
   },
-  { 
-    path: '/dashboard',
-    component: Authenticated,
+  {
+    path: '/app',
+    component: () => import('./../views/wrappers/Authenticated.vue'),
+    beforeEnter: authGuard,
     children: [
       {
         path: '/appointments',
-        component: Appointments,
+        component: () => import('./../views/Appointments.vue'),
+        beforeEnter: authGuard,
       },
     ],
-  }
+  },
 ];
 export default routes;
