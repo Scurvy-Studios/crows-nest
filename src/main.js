@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router';
+import axios from 'axios'
+import VueAxios from 'vue-axios'
 import App from './App.vue'
 import vuetify from './plugins/vuetify';
 import routes from './routes';
@@ -13,6 +15,7 @@ const router = new VueRouter({
   mode: 'history',
 })
 Vue.use(VueRouter)
+Vue.use(VueAxios, axios)
 
 new Vue({
   vuetify,

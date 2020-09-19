@@ -1,4 +1,12 @@
 # crows-nest
+## Prereq
+Create a local cert so this can run https:
+```
+brew install mkcert
+mkcert -install
+# cd to code directory
+mkcert localhost
+```
 
 ## Project setup
 ```
@@ -22,3 +30,4 @@ yarn lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+

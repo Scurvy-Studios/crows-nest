@@ -1,7 +1,8 @@
 <template>
   <v-dialog
       fullscreen
-      v-model="showNewAppointment"
+      v-model="showAppointmentModal"
+      persistent
     >
       <v-card>
           <v-container>
@@ -65,30 +66,8 @@
                             <v-date-picker v-model="appointmentDate" @input="showDatePicker = false"></v-date-picker>
                         </v-menu>
                         </v-col>
-                        <v-col cols="12">
-                            <p class="text-overline mb-0">Appointment Time</p>
-                            <v-menu
-                            v-model="showDatePicker"
-                            :close-on-content-click="false"
-                            :nudge-right="40"
-                            transition="scale-transition"
-                            offset-y
-                            min-width="290px"
-                        >
-                            <template v-slot:activator="{ on, attrs }">
-                            <v-text-field
-                                full-width
-                                outlined
-                                v-model="appointmentDate"
-                                prepend-icon="mdi-calendar-month"
-                                readonly
-                                v-bind="attrs"
-                                v-on="on"
-                            ></v-text-field>
-                            </template>
-                            <v-date-picker v-model="appointmentDate" @input="showDatePicker = false"></v-date-picker>
-                        </v-menu>
-                        </v-col>
+                        <time-input label="Appointment Time Start"></time-input>
+                        <time-input v-if="meetingLength === 'custom'" label="Appointment Time End"></time-input>
                     </v-row>
                 </v-col>
             </v-row>
@@ -98,11 +77,11 @@
           <v-spacer></v-spacer>
 
           <v-btn
-            color="green darken-1"
+            color="red darken-1"
             text
             @click.stop="close"
           >
-            Disagree
+            Cancel
           </v-btn>
 
           <v-btn
@@ -110,7 +89,7 @@
             text
             @click.stop="close"
           >
-            Agree
+            Request Appointment
           </v-btn>
         </v-card-actions>
         </v-container>
@@ -119,7 +98,12 @@
 </template>
 
 <script>
+import TimeInput from './TimeInput.vue';
+
 export default {
+    components: {
+        'time-input': TimeInput,
+    },
     props: {
         showNewAppointment: {
             type: Boolean,
@@ -134,6 +118,7 @@ export default {
     },
     data() {
         return {
+            showAppointmentModal: this.showNewAppointment,
             participants: [],
             meetingLength: null,
             showDatePicker: false,
