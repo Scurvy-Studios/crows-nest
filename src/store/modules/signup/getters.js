@@ -17,4 +17,8 @@ export default {
     getSignUpPassword(state) {
         return state.password;
     },
+    getSignUpProcessing(state) {
+        console.log(state);
+        return state.processing;
+    },
 };

@@ -7,29 +7,45 @@
           <v-col cols="12" align="center">
               <v-card flat outlined max-width="600">
                   <v-card-text>
-                    <v-form v-model="signupValid">
-                        <v-text-field type="text" 
-                            required v-model="email" validate-on-blur label="Email Address" :rules="emailRules">
-                        </v-text-field>
-                        <v-text-field type="text" 
-                            required v-model="firstName" validate-on-blur label="First Name" :rules="firstNameRules">
-                        </v-text-field>
-                        <v-text-field type="text" 
-                            required v-model="lastName" validate-on-blur label="Last Name" :rules="lastNameRules">
-                        </v-text-field>
-                        <v-text-field type="password" 
-                            required v-model="password" validate-on-blur label="Password" :error-count="passwordHints.length" persistent-hint :messages="passwordHints">
-                        </v-text-field>
-                        <v-btn
-                            :disabled="!signupValid"
+                        <v-slide-y-transition hide-on-leave>
+                            <v-progress-circular
+                            v-if="processing"
+                            indeterminate
                             color="primary"
-                            class="my-4"
-                            @click="submit"
-                            block
-                        >
-                            Sign Up
-                        </v-btn>
-                    </v-form>
+                            size="250"
+                        ></v-progress-circular>
+                            <v-form v-model="signupValid" v-if="!processing && !success">
+                                <div v-if="errors" class="red--text">
+                                    <p class="mb-0">There Has been an error with your registration.</p>
+                                    <p>If you think you already have an account, please login instead.</p>
+                                </div>
+                                <v-text-field type="text" 
+                                    required v-model="email" validate-on-blur label="Email Address" :rules="emailRules">
+                                </v-text-field>
+                                <v-text-field type="text" 
+                                    required v-model="firstName" validate-on-blur label="First Name" :rules="firstNameRules">
+                                </v-text-field>
+                                <v-text-field type="text" 
+                                    required v-model="lastName" validate-on-blur label="Last Name" :rules="lastNameRules">
+                                </v-text-field>
+                                <v-text-field type="password" 
+                                    required v-model="password" validate-on-blur label="Password" :error-count="passwordHints.length" persistent-hint :messages="passwordHints">
+                                </v-text-field>
+                                <v-btn
+                                    :disabled="!signupValid"
+                                    color="primary"
+                                    class="my-4"
+                                    @click="submit"
+                                    block
+                                >
+                                    Sign Up
+                                </v-btn>
+                            </v-form>
+                            <div v-if="success">
+                            <p>Thank you for registering.</p>
+                            <p>An Email has been sent to {{email}}. Please confirm your email address and login to continue.</p>
+                        </div>
+                        </v-slide-y-transition>
                   </v-card-text>
               </v-card>
           </v-col>
@@ -42,6 +58,11 @@ import { emailRules, firstNameRules, lastNameRules } from '@/helpers/rules';
 
 export default {
     computed: {
+        processing: {
+            get() {
+                return this.$store.getters.getSignUpProcessing;
+            },
+        },
         email: {
             get() {
                 return this.$store.getters.getSignUpEmail;
@@ -101,18 +122,28 @@ export default {
     data() {
         return {
             signupValid: null,
+            success: false,
+            errors: false,
             emailRules,
             firstNameRules,
             lastNameRules,
         };
     },
     methods: {
-        submit() {
-            console.log('sign up');
-            this.$store.dispatch('signup');
+        async submit() {
+            this.$store.commit('updateSignUpProcessing', true);
+            this.$store.dispatch('signup')
+                .then((response) => {
+                    console.log(response);
+                    this.$store.commit('updateSignUpProcessing', false);
+                    this.success = true;
+                })
+                .catch((error) => {
+                    this.$store.commit('updateSignUpProcessing', false);
+                    this.errors = true;
+                    console.log(error);
+                })
         },
-    },
-    mounted() {
     },
 }
 </script>

@@ -6,7 +6,7 @@ import signup from './modules/signup';
 
 Vue.use(Vuex)
 
-const state = { test: 'foo' };
+const state = {};
 const store = new Vuex.Store({
     state,
     modules: {

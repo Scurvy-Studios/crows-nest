@@ -11,4 +11,7 @@ export default {
     updatePassword(state, payload) {
         state.password = payload;
     },
+    updateSignUpProcessing(state, payload) {
+        state.processing = payload;
+    },
 };
